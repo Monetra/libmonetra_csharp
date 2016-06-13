@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libmonetra", "libmonetra.csproj", "{10CFFC97-0B52-4CD9-84FE-7B3FC05F60E0}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "libmonetra_inst", "libmonetra_inst.vdproj", "{0A475E60-EE34-4BE9-8871-A116482FFFDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10CFFC97-0B52-4CD9-84FE-7B3FC05F60E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10CFFC97-0B52-4CD9-84FE-7B3FC05F60E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A475E60-EE34-4BE9-8871-A116482FFFDC}.Release|Any CPU.ActiveCfg = Release
+		{0A475E60-EE34-4BE9-8871-A116482FFFDC}.Release|Any CPU.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
