@@ -826,7 +826,11 @@ public class Monetra : IMonetra {
 			try {
 				/* XXX: client certificates too */
 				conn.ssl.AuthenticateAsClient(conn.host, null, 
-#if NET_45
+/* .Net 4.5 added TLS v1.1 and v1.2 support.  We rely on build system preprocessor
+ * definitions that tell us the .Net version, but if those build system macros are
+ * not set (therefore not using the provided build system script), lets assume this
+ * is being compiled with v4.5, as really it should be */
+#if (NET_45 || !NET_20)
 					SslProtocols.Tls11 | SslProtocols.Tls12,
 #else
 					SslProtocols.Tls,
