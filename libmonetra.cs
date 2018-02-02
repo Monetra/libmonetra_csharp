@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Main Street Softworks, Inc. All rights reserved.
+ * Copyright 2018 Main Street Softworks, Inc. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -117,13 +117,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Main Street Softworks, Inc")]
 [assembly: AssemblyProduct("libmonetra")]
-[assembly: AssemblyCopyright("Copyright (c) Main Street Softworks, Inc 2016")]
+[assembly: AssemblyCopyright("Copyright (c) Main Street Softworks, Inc 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(true)]
 [assembly: Guid("a2dd3a40-8c9b-4f4b-82f4-0e902a6e0e21")]
-[assembly: AssemblyVersion("0.9.10.0")]
-[assembly: AssemblyFileVersion("0.9.10.0")]
+[assembly: AssemblyVersion("0.9.11.0")]
+[assembly: AssemblyFileVersion("0.9.11.0")]
 #endif
 
 namespace libmonetra {
@@ -179,7 +179,7 @@ public interface IMonetra
 }
 
 public class Monetra : IMonetra {
-	public const string version = "0.9.10";
+	public const string version = "0.9.11";
 
 	/* Base implementation, emulate our libmonetra API as closely as possible */
 
@@ -835,7 +835,7 @@ public class Monetra : IMonetra {
 #else
 					SslProtocols.Tls,
 #endif
-					true);
+					false /* No CRL verification */);
 			} catch (AuthenticationException e) {
 				conn.conn_error = "SSL Exception: " + e.Message;
 				closeConn(conn);

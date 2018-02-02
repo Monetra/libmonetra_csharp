@@ -23,6 +23,9 @@ Revision History
            when shutting down a socket that is already closed.
  * 0.9.10- Add .Net 4.5 detection at build time to enable TLSv1.1 and
            TLSv1.2 support.
+ * 0.9.11- Disable CRL verification.  Most companies restrict firewalls
+           preventing CRL verification in the first place, all it does
+           is add a 15s delay.  Maybe at some point this should be configurable.
 
 ========
 Overview
