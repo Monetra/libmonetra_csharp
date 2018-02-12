@@ -91,7 +91,7 @@ class MonetraTest {
 
 	static void classapi()
 	{
-		using (Monetra conn = new Monetra()) {
+		Monetra conn = new Monetra();
 		if (method == 1) {
 			conn.SetSSL(host, port);
 			conn.VerifySSLCert(false);
@@ -164,7 +164,6 @@ class MonetraTest {
 		}
 		conn.DeleteTrans(id);
 		Console.WriteLine("Disconnecting...");
-		}
 	}
 
 	static unsafe void unsafeapi(bool do_report)

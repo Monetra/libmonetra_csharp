@@ -1036,7 +1036,7 @@ public class Monetra : IMonetra {
 		/* We need to first count how many lines we have */
 		on_quote  = false;
 		beginsect = 0;
-		int num_lines = 0;
+		int num_sects = 1;
 		for (int i=0; i<data.Length; i++) {
 			if (quote_char != 0 && data[i] == quote_char) {
 				/* Doubling the quote char acts as escaping */
@@ -1050,16 +1050,14 @@ public class Monetra : IMonetra {
 				}
 			}
 			if (data[i] == delim && !on_quote) {
-				num_lines++;
+				num_sects++;
 				beginsect = i+1;
-				if (max_sects != 0 && num_lines == max_sects-1)
+				if (max_sects != 0 && num_sects == max_sects)
 					break;
 			}
 		}
-		if (beginsect < data.Length)
-			num_lines++;
 
-		byte[][] ret = new byte[num_lines][];
+		byte[][] ret = new byte[num_sects][];
 		beginsect     = 0;
 		int cnt       = 0;
 		on_quote      = false;
@@ -1079,13 +1077,19 @@ public class Monetra : IMonetra {
 			if (data[i] == delim && !on_quote) {
 				ret[cnt++] = byteArraySubStr(data, beginsect, i - beginsect);
 				beginsect = i + 1;
-				if (max_sects != 0 && cnt == max_sects - 1)
+				if (cnt == num_sects)
 					break;
 			}
 		}
-		if (beginsect < data.Length) {
+		if (beginsect < data.Length && cnt != num_sects) {
 			ret[cnt++] = byteArraySubStr(data, beginsect, data.Length - beginsect);
 		}
+
+		/* Pad out sections */
+		for (int i=cnt; i<num_sects; i++) {
+			ret[cnt] = null;
+		}
+
 		return ret;
 	}
 
@@ -1296,9 +1300,16 @@ public class Monetra : IMonetra {
 	
 	private static string[][] M_parsecsv(byte[] data, byte delimiter, byte enclosure)
 	{
-		byte[][] lines = byteArrayExplode(0x0A, data, enclosure, 0);
-		string[][] csv = new string[lines.Length][];
-		for (int i=0; i<lines.Length; i++) {
+		byte[][]   lines       = byteArrayExplode(0x0A, data, enclosure, 0);
+		string[][] csv         = new string[lines.Length][];
+		int        line_cnt;
+
+		/* Strip any trailing blank lines */
+		for (line_cnt = lines.Length; line_cnt > 0 && lines[line_cnt-1].Length == 0; line_cnt--) {
+			/* Do nothing */
+		}
+
+		for (int i=0; i<line_cnt; i++) {
 			byte[][] cells = byteArrayExplode(delimiter, lines[i], enclosure, 0);
 			csv[i] = new string[cells.Length];
 			for (int j=0; j<cells.Length; j++) {
