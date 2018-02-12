@@ -1081,13 +1081,8 @@ public class Monetra : IMonetra {
 					break;
 			}
 		}
-		if (beginsect < data.Length && cnt != num_sects) {
+		if (cnt != num_sects) {
 			ret[cnt++] = byteArraySubStr(data, beginsect, data.Length - beginsect);
-		}
-
-		/* Pad out sections */
-		for (int i=cnt; i<num_sects; i++) {
-			ret[cnt] = null;
 		}
 
 		return ret;
@@ -1301,13 +1296,15 @@ public class Monetra : IMonetra {
 	private static string[][] M_parsecsv(byte[] data, byte delimiter, byte enclosure)
 	{
 		byte[][]   lines       = byteArrayExplode(0x0A, data, enclosure, 0);
-		string[][] csv         = new string[lines.Length][];
+		string[][] csv;
 		int        line_cnt;
 
 		/* Strip any trailing blank lines */
 		for (line_cnt = lines.Length; line_cnt > 0 && lines[line_cnt-1].Length == 0; line_cnt--) {
 			/* Do nothing */
 		}
+
+		csv = new string[line_cnt][];
 
 		for (int i=0; i<line_cnt; i++) {
 			byte[][] cells = byteArrayExplode(delimiter, lines[i], enclosure, 0);
