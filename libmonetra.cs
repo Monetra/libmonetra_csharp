@@ -1040,8 +1040,8 @@ public class Monetra : IMonetra {
 		on_quote  = false;
 		for (int i=0; i<data.Length; i++) {
 			if (quote_char != 0 && data[i] == quote_char) {
-				/* Doubling the quote char acts as escaping */
-				if (data.Length - i > 1 && data[i+1] == quote_char) {
+				/* Doubling the quote char acts as escaping if in a quoted string */
+				if (on_quote && data.Length - i > 1 && data[i+1] == quote_char) {
 					i++;
 					continue;
 				} else if (on_quote) {
@@ -1065,7 +1065,7 @@ public class Monetra : IMonetra {
 		for (int i=0; i<data.Length; i++) {
 			if (quote_char != 0 && data[i] == quote_char) {
 				/* Doubling the quote char acts as escaping */
-				if (data.Length - i > 1 && data[i+1] == quote_char) {
+				if (on_quote && data.Length - i > 1 && data[i+1] == quote_char) {
 					i++;
 					continue;
 				} else if (on_quote) {
@@ -1090,13 +1090,22 @@ public class Monetra : IMonetra {
 
 	private static string M_remove_dupe_quotes(byte[] str)
 	{
+		int i   = 0;
+		int len = str.Length;
+
 		/* No quotes */
 		if (byteArrayChr(str, 0x22) == -1)
 			return Encoding.UTF8.GetString(str);
 
+		/* Surrounding quotes, remove */
+		if (str[0] == 0x22 && str[len-1] == 0x22) {
+			i   += 1;
+			len -= 1;
+		}
+
 		StringBuilder mystr = new StringBuilder("");
-		for (int i=0; i<str.Length; i++) {
-			if (str[i] == 0x22 && i < str.Length-1 && str[i+1] == 0x22) {
+		for ( ; i<len; i++) {
+			if (str[i] == 0x22 && i < len-1 && str[i+1] == 0x22) {
 				byte[] val = new byte[1] {0x22};
 				mystr.Append(Encoding.UTF8.GetString(val));
 				i++;
