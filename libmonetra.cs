@@ -1030,17 +1030,18 @@ public class Monetra : IMonetra {
 	{
 		bool on_quote;
 		int beginsect;
+		int num_sects;
+
 		if (data == null || data.Length == 0)
 			return null;
 
 		/* We need to first count how many lines we have */
+		num_sects = 1;
 		on_quote  = false;
-		beginsect = 0;
-		int num_sects = 1;
 		for (int i=0; i<data.Length; i++) {
 			if (quote_char != 0 && data[i] == quote_char) {
 				/* Doubling the quote char acts as escaping */
-				if (data[i+1] == quote_char) {
+				if (data.Length - i > 1 && data[i+1] == quote_char) {
 					i++;
 					continue;
 				} else if (on_quote) {
@@ -1051,21 +1052,20 @@ public class Monetra : IMonetra {
 			}
 			if (data[i] == delim && !on_quote) {
 				num_sects++;
-				beginsect = i+1;
 				if (max_sects != 0 && num_sects == max_sects)
 					break;
 			}
 		}
 
 		byte[][] ret = new byte[num_sects][];
-		beginsect     = 0;
-		int cnt       = 0;
-		on_quote      = false;
+		beginsect    = 0;
+		int cnt      = 0;
+		on_quote     = false;
 
 		for (int i=0; i<data.Length; i++) {
 			if (quote_char != 0 && data[i] == quote_char) {
 				/* Doubling the quote char acts as escaping */
-				if (data[i+1] == quote_char) {
+				if (data.Length - i > 1 && data[i+1] == quote_char) {
 					i++;
 					continue;
 				} else if (on_quote) {
