@@ -122,8 +122,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(true)]
 [assembly: Guid("a2dd3a40-8c9b-4f4b-82f4-0e902a6e0e21")]
-[assembly: AssemblyVersion("0.9.11.0")]
-[assembly: AssemblyFileVersion("0.9.11.0")]
+[assembly: AssemblyVersion("0.9.12.0")]
+[assembly: AssemblyFileVersion("0.9.12.0")]
 #endif
 
 namespace libmonetra {
@@ -179,7 +179,7 @@ public interface IMonetra
 }
 
 public class Monetra : IMonetra {
-	public const string version = "0.9.11";
+	public const string version = "0.9.12";
 
 	/* Base implementation, emulate our libmonetra API as closely as possible */
 
@@ -1038,7 +1038,7 @@ public class Monetra : IMonetra {
 		/* We need to first count how many lines we have */
 		num_sects = 1;
 		on_quote  = false;
-		for (int i=0; i<data.Length; i++) {
+		for (int i=0; i<data.Length && (max_sects == 0 || num_sects < max_sects) ; i++) {
 			if (quote_char != 0 && data[i] == quote_char) {
 				/* Doubling the quote char acts as escaping if in a quoted string */
 				if (on_quote && data.Length - i > 1 && data[i+1] == quote_char) {
@@ -1052,17 +1052,15 @@ public class Monetra : IMonetra {
 			}
 			if (data[i] == delim && !on_quote) {
 				num_sects++;
-				if (max_sects != 0 && num_sects == max_sects)
-					break;
 			}
 		}
 
 		byte[][] ret = new byte[num_sects][];
 		beginsect    = 0;
-		int cnt      = 0;
+		int cnt      = 1;
 		on_quote     = false;
 
-		for (int i=0; i<data.Length; i++) {
+		for (int i=0; i<data.Length && cnt < num_sects; i++) {
 			if (quote_char != 0 && data[i] == quote_char) {
 				/* Doubling the quote char acts as escaping */
 				if (on_quote && data.Length - i > 1 && data[i+1] == quote_char) {
@@ -1075,15 +1073,13 @@ public class Monetra : IMonetra {
 				}
 			}
 			if (data[i] == delim && !on_quote) {
-				ret[cnt++] = byteArraySubStr(data, beginsect, i - beginsect);
-				beginsect = i + 1;
-				if (cnt == num_sects)
-					break;
+				ret[cnt-1] = byteArraySubStr(data, beginsect, i - beginsect);
+				beginsect  = i + 1;
+				cnt++;
 			}
 		}
-		if (cnt != num_sects) {
-			ret[cnt++] = byteArraySubStr(data, beginsect, data.Length - beginsect);
-		}
+		/* Capture last segment */
+		ret[cnt-1] = byteArraySubStr(data, beginsect, data.Length - beginsect);
 
 		return ret;
 	}

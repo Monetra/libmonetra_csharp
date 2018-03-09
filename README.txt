@@ -1,4 +1,4 @@
-LIBMONETRA C# .NET v0.9.10
+LIBMONETRA C# .NET v0.9.12
 
 ================
 Revision History
@@ -26,6 +26,7 @@ Revision History
  * 0.9.11- Disable CRL verification.  Most companies restrict firewalls
            preventing CRL verification in the first place, all it does
            is add a 15s delay.  Maybe at some point this should be configurable.
+ * 0.9.12- Fix CSV parser
 
 ========
 Overview
