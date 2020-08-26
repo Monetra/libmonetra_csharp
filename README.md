@@ -64,8 +64,8 @@ which uses self-signed certificates:
  4. In the Certificate Path Validation Settings Properties dialog box, on the
     Network Retrieval tab, Choose to "Define these policy settings" and
     deselect "Automatically update certificates in the Microsoft Root
-    Certificate Program" and "Allow issuer certificate (AIA) retrieval during
-    path validation"
+    Certificate Program" and also deselect "Allow issuer certificate (AIA)
+    retrieval during path validation" if provided as an option.
  5. In the Certificate Path Validation Settings Properties dialog box, click OK.
  6. Close the Policy Management Editor.
  7. A reboot may be necessary to take effect.
