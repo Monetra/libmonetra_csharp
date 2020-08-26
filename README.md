@@ -43,22 +43,30 @@ can be found here:
 https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/ee619786(v=ws.10)#to-change-the-default-revocation-checking-behavior-1
 
 Abbreviated steps are:
- 1. Click Start, click Administrative Tools, and then click Group Policy
-    Management Editor.
- 2. In the console tree, expand Forest:ForestName, expand Domains, and then
-    click Domain.
- 3. In the details pane, right-click Default Domain Policy, and then click Edit.
- 4. In the Group Policy Management Editor, in the console tree, expand Default
-    Domain Policy, expand Computer Configuration, expand Policies, expand
-    Windows Settings, expand Security Settings, and then expand Public Key
-    Policies.
- 5. In the details pane, double-click Certificate Path Validation Settings.
- 6. In the Certificate Path Validation Settings Properties dialog box, on the
-    Network Retrieval tab, deselect "Automatically update certificates in the
-    Microsoft Root Certificate Program"
- 7. In the Certificate Path Validation Settings Properties dialog box, click OK.
- 8. Close the Group Policy Management Editor.
- 9. A reboot may be necessary to take effect.
+ 1. Click Start, click Administrative Tools
+ 2. Open the Public Key Policies
+    a. If on a Domain:
+       i.   Choose Group Policy Management Editor.
+       ii.  In the console tree, expand Forest:ForestName, expand Domains, and
+            then click Domain.
+       iii. In the details pane, right-click Default Domain Policy, and then
+            click Edit.
+       iv.  In the Group Policy Management Editor, in the console tree, expand
+            Default Domain Policy, expand Computer Configuration, expand
+            Policies, expand Windows Settings, expand Security Settings, and
+            then expand Public Key Policies.
+    b. If managing a Local Install:
+       i.   Choose Local Security Policy
+       ii.  Choose Public Key Policies
+ 3. In the details pane, double-click Certificate Path Validation Settings.
+ 4. In the Certificate Path Validation Settings Properties dialog box, on the
+    Network Retrieval tab, Choose to "Define these policy settings" and
+    deselect "Automatically update certificates in the Microsoft Root
+    Certificate Program" and "Allow issuer certificate (AIA) retrieval during
+    path validation"
+ 5. In the Certificate Path Validation Settings Properties dialog box, click OK.
+ 6. Close the Policy Management Editor.
+ 7. A reboot may be necessary to take effect.
 
 
 Overview
