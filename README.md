@@ -18,31 +18,33 @@ servers will use this entire 15s interval.  Servers that do not have egress
 firewall restrictions may never notice this issue as it usually only takes a
 second or two for this check to succeed.  In our experience, it appears
 Microsoft performs this check at most every 30 minutes, therefore the issue
-can appear randomly.
+can appear to be random.
 
 This is not an issue if a server is deployed using a signed certificate by a
 trusted Certificate Authority, but for internal servers like UniTerm and
-Monetra are often deployed as, it is a virtual impossibility to get signed
-certificates.
+Monetra are often deployed as, it is a virtual impossibility or infeasible to
+get signed certificates.
 
 The work arounds for this are to either import the UniTerm or Monetra server
 certificate into the Windows trust list, and then maintain the trust list for
 any change in the certificate that may occur over time.  Or simply disable the
 "Automatically update certificates in the Microsoft Root Certificate Program".
-There should be no negative side-effects to disabling this feature as the
-standard Windows Update processes will distribute new Root certificates from
+There should be no negative side-effects to disabling this Windows feature as
+the standard Windows Update processes will distribute new Root certificates from
 time to time as well.
 
 More information on this topic can be found here:
 https://docs.microsoft.com/en-us/archive/blogs/alejacma/big-delay-when-calling-sslstream-authenticateasclient
 
 There does not appear to be a programmatic workaround for this issue, and must
-be resolved via System Administration tasks.  Information on disabling this
-can be found here:
+be resolved via System Administration tasks.  Information is provided by
+Microsoft on these policies and can be found here:
 
 https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/ee619786(v=ws.10)#to-change-the-default-revocation-checking-behavior-1
 
-Abbreviated steps are:
+For clarity, the steps to follow are outlined below.  This must be performed
+on every machine using this library to connect to a Monetra or UniTerm host
+which uses self-signed certificates:
  1. Click Start, click Administrative Tools
  2. Open the Public Key Policies
      * If on a Domain:
