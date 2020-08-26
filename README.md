@@ -45,7 +45,7 @@ https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server
 Abbreviated steps are:
  1. Click Start, click Administrative Tools
  2. Open the Public Key Policies
-     a. If on a Domain:
+     1. If on a Domain:
          i.   Choose Group Policy Management Editor.
          ii.  In the console tree, expand Forest:ForestName, expand Domains, and
               then click Domain.
@@ -55,7 +55,7 @@ Abbreviated steps are:
               Default Domain Policy, expand Computer Configuration, expand
               Policies, expand Windows Settings, expand Security Settings, and
               then expand Public Key Policies.
-     b. If managing a Local Install:
+     2. If managing a Local Install:
          i.   Choose Local Security Policy
          ii.  Choose Public Key Policies
  3. In the details pane, double-click Certificate Path Validation Settings.
